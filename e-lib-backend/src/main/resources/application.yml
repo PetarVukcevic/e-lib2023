@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: E Lib
+
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/e-lib?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=CET&allowPublicKeyRetrieval=true
+    username: root
+    password: Fx8P1200
+    driver-class-name: com.mysql.cj.jdbc.Driver
