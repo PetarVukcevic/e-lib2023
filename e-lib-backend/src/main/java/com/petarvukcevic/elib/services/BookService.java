@@ -29,4 +29,12 @@ public class BookService {
         }
         return null;
     }
+
+    public void addBook(Book book) {
+        bookRepository.save(book);
+    }
+
+    public void updateBook(Book book) {
+        bookRepository.save(book);
+    }
 }

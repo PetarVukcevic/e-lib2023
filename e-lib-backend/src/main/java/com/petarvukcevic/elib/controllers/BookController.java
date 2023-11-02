@@ -5,13 +5,9 @@ import com.petarvukcevic.elib.services.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @RestController
@@ -35,4 +31,16 @@ public class BookController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PostMapping("/add-new")
+    public ResponseEntity<Void> addBook(@RequestBody Book book) {
+        bookService.addBook(book);
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}/edit")
+    public ResponseEntity<Void> updateBook(@PathVariable("id") Integer id, @RequestBody Book book) {
+        bookService.updateBook(book);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
