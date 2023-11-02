@@ -1,42 +1,40 @@
 package com.petarvukcevic.elib.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.List;
 
-@Entity
-@Table(name = "books")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Book {
+@Entity
+@Table(name = "categories")
+public class Category {
 
     @Id
-    @Column
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    private String title;
+    private String name;
 
-    private String author;
-
-    private String genre;
-
-    private Integer pages;
+    private String description;
 
     @Column(name = "created_at")
-    @CreationTimestamp()
+    @CreationTimestamp
     private Date createdAt;
 
     @Column(name = "updated_at")
-    @UpdateTimestamp()
+    @UpdateTimestamp
     private Date updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    private Category category;
+    @OneToMany(mappedBy = "categories", targetEntity = Book.class)
+    private List<Book> books;
 }
