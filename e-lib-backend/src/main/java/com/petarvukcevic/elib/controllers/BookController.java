@@ -23,7 +23,8 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Book> findById(@PathVariable int id) {
+    public ResponseEntity<Book> findById(@PathVariable int id)
+    {
         Book book = bookService.findById(id);
 
         return book != null
@@ -32,7 +33,8 @@ public class BookController {
     }
 
     @PostMapping("/add-new")
-    public ResponseEntity<Void> addBook(@RequestBody Book book) {
+    public ResponseEntity<Void> addBook(@RequestBody Book book)
+    {
         bookService.addBook(book);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
@@ -41,6 +43,13 @@ public class BookController {
     @PutMapping("/{id}/edit")
     public ResponseEntity<Void> updateBook(@PathVariable("id") Integer id, @RequestBody Book book) {
         bookService.updateBook(book);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}/delete")
+    public ResponseEntity<Void> deleteBook(@PathVariable("id") Integer id)
+    {
+        bookService.deleteBook(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
