@@ -1,5 +1,6 @@
 package com.petarvukcevic.elib.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -37,6 +39,7 @@ public class Category implements Serializable {
     @UpdateTimestamp
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "category", targetEntity = Book.class)
-    private List<Book> books = new ArrayList<>();
+    @JsonBackReference
+    @OneToMany(mappedBy = "category")
+    private Set<Book> books;
 }

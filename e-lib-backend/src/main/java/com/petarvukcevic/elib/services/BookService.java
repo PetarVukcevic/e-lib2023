@@ -4,6 +4,8 @@ import com.petarvukcevic.elib.entities.Book;
 import com.petarvukcevic.elib.repositories.BookRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,4 +43,10 @@ public class BookService {
     public void deleteBook(Integer id) {
         bookRepository.deleteById(id);
     }
+
+    public Page<Book> findByCategoryId(Integer id, Pageable pageable)
+    { return bookRepository.findByCategoryId(id, pageable); }
+
+    public Page<Book> searchByTitleOrAuthor(String term, Pageable pageable)
+    { return bookRepository.findByTitleContainingOrAuthorContaining(term, term, pageable); }
 }
