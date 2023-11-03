@@ -8,6 +8,8 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,7 +19,7 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 @Table(name = "categories")
-public class Category {
+public class Category implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,6 +37,6 @@ public class Category {
     @UpdateTimestamp
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "categories", targetEntity = Book.class)
-    private List<Book> books;
+    @OneToMany(mappedBy = "category", targetEntity = Book.class)
+    private List<Book> books = new ArrayList<>();
 }
