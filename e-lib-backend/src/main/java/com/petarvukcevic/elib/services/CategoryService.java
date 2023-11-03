@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,4 +20,22 @@ public class CategoryService {
     public List<Category> findAll() {
         return categoryRepository.findAll();
     }
+
+    public Category findOneById(Integer id)
+    {
+        List<Category> categories = findAll();
+        for (Category category : categories)
+        {
+            if (category.getId() == id) {
+                return category;
+            }
+        }
+        return null;
+    }
+
+    public void addCategory(Category category) { categoryRepository.save(category); }
+
+    public void updateCategory(Category category) { categoryRepository.save(category); }
+
+    public void deleteCategory(Integer id) { categoryRepository.deleteById(id); }
 }
