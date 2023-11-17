@@ -1,6 +1,9 @@
 package com.petarvukcevic.elib.services;
 
+import com.petarvukcevic.elib.dto.command.CategoryCommand;
+import com.petarvukcevic.elib.dto.query.CategoryQuery;
 import com.petarvukcevic.elib.entities.Category;
+import com.petarvukcevic.elib.mappers.CategoryMapper;
 import com.petarvukcevic.elib.repositories.CategoryRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -16,24 +19,36 @@ import java.util.List;
 public class CategoryService {
 
     private final CategoryRepository categoryRepository;
+    private final CategoryMapper categoryMapper;
 
-    public List<Category> findAll() {
-        return categoryRepository.findAll();
-    }
-
-    public Category findOneById(Integer id)
+    public List<CategoryQuery> findAll()
     {
-        List<Category> categories = findAll();
-        for (Category category : categories)
-        {
-            if (category.getId() == id) {
-                return category;
-            }
-        }
-        return null;
+         return categoryRepository.findAll()
+                 .stream()
+                 .map(categoryMapper::toCategoryQuery)
+                 .toList();
+
     }
 
-    public void addCategory(Category category) { categoryRepository.save(category); }
+//    public Category findOneById(Integer id)
+//    {
+//        List<Category> categories = findAll();
+//        for (Category category : categories)
+//        {
+//            if (category.getId() == id) {
+//                return category;
+//            }
+//        }
+//        return null;
+//    }
+
+    public CategoryQuery save(CategoryCommand categoryCommand)
+    {
+        Category category = categoryMapper.toCategory(categoryCommand);
+        categoryRepository.save(category);
+
+        return categoryMapper.toCategoryQuery(category);
+    }
 
     public void updateCategory(Category category) { categoryRepository.save(category); }
 

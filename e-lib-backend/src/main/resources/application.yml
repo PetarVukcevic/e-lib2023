@@ -4,3 +4,8 @@ spring:
   profiles:
     active: dev
 
+#    Cache configuration
+  cache:
+    jcache:
+      config: classpath:cache/ehcache.xml
+

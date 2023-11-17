@@ -1,5 +1,7 @@
 package com.petarvukcevic.elib.controllers;
 
+import com.petarvukcevic.elib.dto.command.CategoryCommand;
+import com.petarvukcevic.elib.dto.query.CategoryQuery;
 import com.petarvukcevic.elib.entities.Book;
 import com.petarvukcevic.elib.entities.Category;
 import com.petarvukcevic.elib.services.CategoryService;
@@ -17,27 +19,27 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    @GetMapping("{id}")
-    public ResponseEntity<Category> findOneById(@PathVariable("id") Integer id) {
-        Category category = categoryService.findOneById(id);
-
-        return category != null
-                ? new ResponseEntity<>(category, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+//    @GetMapping("{id}")
+//    public ResponseEntity<Category> findOneById(@PathVariable("id") Integer id) {
+//        Category category = categoryService.findOneById(id);
+//
+//        return category != null
+//                ? new ResponseEntity<>(category, HttpStatus.OK)
+//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 
     @GetMapping()
-    public ResponseEntity<List<Category>> findAll() {
-        List<Category> categories = categoryService.findAll();
+    public ResponseEntity<List<CategoryQuery>> findAll()
+    {
+        List<CategoryQuery> categories = categoryService.findAll();
         return new ResponseEntity<>(categories, HttpStatus.OK);
     }
 
     @PostMapping("/add-new")
-    public ResponseEntity<Void> addCategory(@RequestBody Category category)
+    public ResponseEntity<CategoryQuery> createCategory(@RequestBody CategoryCommand categoryCommand)
     {
-        categoryService.addCategory(category);
-
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        CategoryQuery categoryQuery = categoryService.save(categoryCommand);
+        return new ResponseEntity<>(categoryQuery, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}/edit")
