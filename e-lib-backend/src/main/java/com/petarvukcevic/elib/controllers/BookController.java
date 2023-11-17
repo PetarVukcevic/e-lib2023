@@ -1,5 +1,6 @@
 package com.petarvukcevic.elib.controllers;
 
+import com.petarvukcevic.elib.dto.command.BookCommand;
 import com.petarvukcevic.elib.entities.Book;
 import com.petarvukcevic.elib.services.BookService;
 import lombok.RequiredArgsConstructor;
@@ -50,9 +51,9 @@ public class BookController {
     }
 
     @PostMapping("/add-new")
-    public ResponseEntity<Void> addBook(@RequestBody Book book)
+    public ResponseEntity<Void> create(@RequestBody BookCommand bookCommand)
     {
-        bookService.addBook(book);
+        bookService.create(bookCommand);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

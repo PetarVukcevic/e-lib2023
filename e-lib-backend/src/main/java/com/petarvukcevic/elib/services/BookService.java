@@ -1,6 +1,8 @@
 package com.petarvukcevic.elib.services;
 
+import com.petarvukcevic.elib.dto.command.BookCommand;
 import com.petarvukcevic.elib.entities.Book;
+import com.petarvukcevic.elib.mappers.BookMapper;
 import com.petarvukcevic.elib.repositories.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
@@ -23,6 +25,15 @@ import java.util.Optional;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final BookMapper bookMapper;
+
+    public void create(BookCommand bookCommand)
+    {
+//        Book book = bookMapper.toBook(bookCommand);
+//        bookRepository.save(book);
+
+        bookRepository.save(bookMapper.toBook(bookCommand));
+    }
 
     public List<Book> findAll() {
         return bookRepository.findAll();

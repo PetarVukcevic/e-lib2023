@@ -1,6 +1,7 @@
 package com.petarvukcevic.elib.services;
 
 import com.petarvukcevic.elib.dto.command.CategoryCommand;
+import com.petarvukcevic.elib.dto.command.CategoryUpdateCommand;
 import com.petarvukcevic.elib.dto.query.CategoryQuery;
 import com.petarvukcevic.elib.entities.Category;
 import com.petarvukcevic.elib.mappers.CategoryMapper;
@@ -42,7 +43,7 @@ public class CategoryService {
 //        return null;
 //    }
 
-    public CategoryQuery save(CategoryCommand categoryCommand)
+    public CategoryQuery create(CategoryCommand categoryCommand)
     {
         Category category = categoryMapper.toCategory(categoryCommand);
         categoryRepository.save(category);
@@ -50,7 +51,11 @@ public class CategoryService {
         return categoryMapper.toCategoryQuery(category);
     }
 
-    public void updateCategory(Category category) { categoryRepository.save(category); }
+    public void update(CategoryUpdateCommand categoryUpdateCommand)
+    {
+        Category category = categoryMapper.toCategory(categoryUpdateCommand);
+        categoryRepository.save(category);
+    }
 
-    public void deleteCategory(Integer id) { categoryRepository.deleteById(id); }
+    public void deleteById(Integer id) { categoryRepository.deleteById(id); }
 }

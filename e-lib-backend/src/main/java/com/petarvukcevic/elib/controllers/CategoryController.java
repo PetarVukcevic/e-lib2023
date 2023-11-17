@@ -1,6 +1,7 @@
 package com.petarvukcevic.elib.controllers;
 
 import com.petarvukcevic.elib.dto.command.CategoryCommand;
+import com.petarvukcevic.elib.dto.command.CategoryUpdateCommand;
 import com.petarvukcevic.elib.dto.query.CategoryQuery;
 import com.petarvukcevic.elib.entities.Book;
 import com.petarvukcevic.elib.entities.Category;
@@ -38,20 +39,25 @@ public class CategoryController {
     @PostMapping("/add-new")
     public ResponseEntity<CategoryQuery> createCategory(@RequestBody CategoryCommand categoryCommand)
     {
-        CategoryQuery categoryQuery = categoryService.save(categoryCommand);
+        CategoryQuery categoryQuery = categoryService.create(categoryCommand);
         return new ResponseEntity<>(categoryQuery, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}/edit")
-    public ResponseEntity<Void> updateCategory(@PathVariable("id") Integer id, @RequestBody Category category) {
-        categoryService.updateCategory(category);
+    @PutMapping()
+    public ResponseEntity<Void> update(@RequestBody CategoryUpdateCommand categoryUpdateCommand)
+    {
+        if (categoryUpdateCommand.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        categoryService.update(categoryUpdateCommand);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}/delete")
     public ResponseEntity<Void> deleteCategory(@PathVariable("id") Integer id)
     {
-        categoryService.deleteCategory(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        categoryService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
