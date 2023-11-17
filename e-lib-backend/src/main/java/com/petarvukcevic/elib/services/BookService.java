@@ -60,6 +60,12 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
+    public Page<BookQuery> searchByTitleOrAuthor(String term, Pageable pageable)
+    {
+        return bookRepository.findByTitleContainingOrAuthorContaining(term,term,pageable)
+                .map(bookMapper::toBookQuery);
+    }
+
     //    Cache start
 //    @Cacheable(value = "book", key = "#id")
 //    public Book findByIdOrElse(Integer id) {
@@ -104,6 +110,5 @@ public class BookService {
 //    public Page<Book> findByCategoryId(Integer id, Pageable pageable)
 //    { return bookRepository.findByCategoryId(id, pageable); }
 //
-//    public Page<Book> searchByTitleOrAuthor(String term, Pageable pageable)
-//    { return bookRepository.findByTitleContainingOrAuthorContaining(term, term, pageable); }
+
 }

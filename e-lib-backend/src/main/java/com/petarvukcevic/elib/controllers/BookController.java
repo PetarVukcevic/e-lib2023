@@ -43,19 +43,18 @@ public class BookController {
 //        return new ResponseEntity<>(books, HttpStatus.OK);
 //    }
 
-//    @GetMapping(value = "search")
-//    public ResponseEntity<Page<Book>> searchByTitleOrAuthor(@RequestParam(value = "term") String term,
-//                                                           Pageable pageable)
-//    {
-//        Page<Book> books = bookService.searchByTitleOrAuthor(term, pageable);
-//        return new ResponseEntity<>(books, HttpStatus.OK);
-//    }
+    @GetMapping(value = "search")
+    public ResponseEntity<Page<BookQuery>> searchByTitleOrAuthor(@RequestParam(value = "term") String term,
+                                                           Pageable pageable)
+    {
+        Page<BookQuery> books = bookService.searchByTitleOrAuthor(term, pageable);
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
 
     @PostMapping("/add-new")
     public ResponseEntity<Void> create(@RequestBody BookCommand bookCommand)
     {
         bookService.create(bookCommand);
-
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
