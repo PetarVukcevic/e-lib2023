@@ -66,6 +66,13 @@ public class BookService {
                 .map(bookMapper::toBookQuery);
     }
 
+    public Page<BookQuery> findByCategoryId(Integer id, Pageable pageable)
+    {
+        return bookRepository.findByCategoryId(id, pageable)
+                .map(bookMapper::toBookQuery);
+    }
+
+
     //    Cache start
 //    @Cacheable(value = "book", key = "#id")
 //    public Book findByIdOrElse(Integer id) {
@@ -104,11 +111,6 @@ public class BookService {
 //    public void addBook(Book book) {
 //        bookRepository.save(book);
 //    }
-//
-
-//
-//    public Page<Book> findByCategoryId(Integer id, Pageable pageable)
-//    { return bookRepository.findByCategoryId(id, pageable); }
 //
 
 }

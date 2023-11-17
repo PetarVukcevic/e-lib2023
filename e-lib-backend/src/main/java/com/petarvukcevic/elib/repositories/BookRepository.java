@@ -1,5 +1,6 @@
 package com.petarvukcevic.elib.repositories;
 
+import com.petarvukcevic.elib.dto.query.BookQuery;
 import com.petarvukcevic.elib.entities.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

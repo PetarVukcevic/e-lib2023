@@ -36,12 +36,12 @@ public class BookController {
                 : new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-//    @GetMapping(value = "/category/{id}")
-//    public ResponseEntity<Page<Book>> searchByCategoryId(@PathVariable(value = "id") Integer id, Pageable pageable)
-//    {
-//        Page<Book> books = bookService.findByCategoryId(id, pageable);
-//        return new ResponseEntity<>(books, HttpStatus.OK);
-//    }
+    @GetMapping(value = "/category/{id}")
+    public ResponseEntity<Page<BookQuery>> searchByCategoryId(@PathVariable(value = "id") Integer id, Pageable pageable)
+    {
+        Page<BookQuery> books = bookService.findByCategoryId(id, pageable);
+        return new ResponseEntity<>(books, HttpStatus.OK);
+    }
 
     @GetMapping(value = "search")
     public ResponseEntity<Page<BookQuery>> searchByTitleOrAuthor(@RequestParam(value = "term") String term,
