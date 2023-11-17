@@ -27,30 +27,29 @@ public class BookController {
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Book> findById(@PathVariable int id)
+    @GetMapping("/{id}")
+    public ResponseEntity<BookQuery> findById(@PathVariable("id") Integer id) {
+        BookQuery bookQuery = bookService.findById(id);
+
+        return bookQuery != null
+                ? new ResponseEntity<>(bookQuery, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+//    @GetMapping(value = "/category/{id}")
+//    public ResponseEntity<Page<Book>> searchByCategoryId(@PathVariable(value = "id") Integer id, Pageable pageable)
 //    {
-//        Book book = bookService.findById(id);
-//
-//        return book != null
-//                ? new ResponseEntity<>(book, HttpStatus.OK)
-//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        Page<Book> books = bookService.findByCategoryId(id, pageable);
+//        return new ResponseEntity<>(books, HttpStatus.OK);
 //    }
 
-    @GetMapping(value = "/category/{id}")
-    public ResponseEntity<Page<Book>> searchByCategoryId(@PathVariable(value = "id") Integer id, Pageable pageable)
-    {
-        Page<Book> books = bookService.findByCategoryId(id, pageable);
-        return new ResponseEntity<>(books, HttpStatus.OK);
-    }
-
-    @GetMapping(value = "search")
-    public ResponseEntity<Page<Book>> searchByTitleOrAuthor(@RequestParam(value = "term") String term,
-                                                           Pageable pageable)
-    {
-        Page<Book> books = bookService.searchByTitleOrAuthor(term, pageable);
-        return new ResponseEntity<>(books, HttpStatus.OK);
-    }
+//    @GetMapping(value = "search")
+//    public ResponseEntity<Page<Book>> searchByTitleOrAuthor(@RequestParam(value = "term") String term,
+//                                                           Pageable pageable)
+//    {
+//        Page<Book> books = bookService.searchByTitleOrAuthor(term, pageable);
+//        return new ResponseEntity<>(books, HttpStatus.OK);
+//    }
 
     @PostMapping("/add-new")
     public ResponseEntity<Void> create(@RequestBody BookCommand bookCommand)

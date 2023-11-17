@@ -20,14 +20,14 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-//    @GetMapping("{id}")
-//    public ResponseEntity<Category> findOneById(@PathVariable("id") Integer id) {
-//        Category category = categoryService.findOneById(id);
-//
-//        return category != null
-//                ? new ResponseEntity<>(category, HttpStatus.OK)
-//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-//    }
+    @GetMapping("{id}")
+    public ResponseEntity<CategoryQuery> findOneById(@PathVariable("id") Integer id) {
+        CategoryQuery categoryQuery = categoryService.findOneById(id);
+
+        return categoryQuery != null
+                ? new ResponseEntity<>(categoryQuery, HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 
     @GetMapping()
     public ResponseEntity<List<CategoryQuery>> findAll()

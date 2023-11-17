@@ -45,53 +45,11 @@ public class BookService {
                 .toList();
     }
 
-//    public Book findById(int id) {
-//        List<Book> allBooks = findAll();
-//        for (Book book : allBooks) {
-//            if (book.getId().equals(id)) {
-//                return book;
-//            }
-//        }
-//        return null;
-//    }
+    public BookQuery findById(Integer id) {
+        Optional<Book> optionalBook = bookRepository.findById(id);
 
-    //    Cache start
-    @Cacheable(value = "book", key = "#id")
-    public Book findByIdOrElse(Integer id) {
-        return bookRepository.findById(id).orElseThrow(EntityNotFoundException::new);
-    }
-
-    @Cacheable(value = "book-page", key = "'page-' + #pageable.page + '-size' + #pageable.size")
-    public Page<Book> findPage(Pageable pageable)
-    {
-        return bookRepository.findAll(pageable);
-    }
-
-    @Cacheable(value = "books", key = "'all-books'")
-    public List<Book> findAllOrElse()
-    {
-        return bookRepository.findAll(); // select * from books => List<Book> => CACHE!
-    }
-
-    @CachePut(cacheNames = "book", key = "#result.id")
-    public Book save(Book book)
-    {
-        return bookRepository.save(book);
-    }
-
-    @CacheEvict(cacheNames = "book", key = "#result")
-    public void deleteById(Integer id)
-    {
-        bookRepository.deleteById(id);
-    }
-
-    @CacheEvict(cacheNames = {"book","books"},allEntries = true)
-    public void  evictAllEntriesFromCache() {
-        log.warn("All entries from book cache are evicted!");
-    }
-// CACHE END
-    public void addBook(Book book) {
-        bookRepository.save(book);
+        // Check if the book with the given ID exists
+        return optionalBook.map(bookMapper::toBookQuery).orElse(null);
     }
 
     public void update(BookUpdateCommand bookUpdateCommand) {
@@ -102,9 +60,50 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public Page<Book> findByCategoryId(Integer id, Pageable pageable)
-    { return bookRepository.findByCategoryId(id, pageable); }
+    //    Cache start
+//    @Cacheable(value = "book", key = "#id")
+//    public Book findByIdOrElse(Integer id) {
+//        return bookRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+//    }
+//
+//    @Cacheable(value = "book-page", key = "'page-' + #pageable.page + '-size' + #pageable.size")
+//    public Page<Book> findPage(Pageable pageable)
+//    {
+//        return bookRepository.findAll(pageable);
+//    }
+//
+//    @Cacheable(value = "books", key = "'all-books'")
+//    public List<Book> findAllOrElse()
+//    {
+//        return bookRepository.findAll(); // select * from books => List<Book> => CACHE!
+//    }
+//
+//    @CachePut(cacheNames = "book", key = "#result.id")
+//    public Book save(Book book)
+//    {
+//        return bookRepository.save(book);
+//    }
+//
+//    @CacheEvict(cacheNames = "book", key = "#result")
+//    public void deleteById(Integer id)
+//    {
+//        bookRepository.deleteById(id);
+//    }
+//
+//    @CacheEvict(cacheNames = {"book","books"},allEntries = true)
+//    public void  evictAllEntriesFromCache() {
+//        log.warn("All entries from book cache are evicted!");
+//    }
+//// CACHE END
+//    public void addBook(Book book) {
+//        bookRepository.save(book);
+//    }
+//
 
-    public Page<Book> searchByTitleOrAuthor(String term, Pageable pageable)
-    { return bookRepository.findByTitleContainingOrAuthorContaining(term, term, pageable); }
+//
+//    public Page<Book> findByCategoryId(Integer id, Pageable pageable)
+//    { return bookRepository.findByCategoryId(id, pageable); }
+//
+//    public Page<Book> searchByTitleOrAuthor(String term, Pageable pageable)
+//    { return bookRepository.findByTitleContainingOrAuthorContaining(term, term, pageable); }
 }

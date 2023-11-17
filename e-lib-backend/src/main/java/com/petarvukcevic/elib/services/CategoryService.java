@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,17 +32,12 @@ public class CategoryService {
 
     }
 
-//    public Category findOneById(Integer id)
-//    {
-//        List<Category> categories = findAll();
-//        for (Category category : categories)
-//        {
-//            if (category.getId() == id) {
-//                return category;
-//            }
-//        }
-//        return null;
-//    }
+    public CategoryQuery findOneById(Integer id)
+    {
+        Optional<Category> optionalCategory = categoryRepository.findById(id);
+
+        return optionalCategory.map(categoryMapper::toCategoryQuery).orElse(null);
+    }
 
     public CategoryQuery create(CategoryCommand categoryCommand)
     {
