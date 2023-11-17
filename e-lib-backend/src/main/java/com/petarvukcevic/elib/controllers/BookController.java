@@ -1,6 +1,7 @@
 package com.petarvukcevic.elib.controllers;
 
 import com.petarvukcevic.elib.dto.command.BookCommand;
+import com.petarvukcevic.elib.dto.query.BookQuery;
 import com.petarvukcevic.elib.entities.Book;
 import com.petarvukcevic.elib.services.BookService;
 import lombok.RequiredArgsConstructor;
@@ -20,20 +21,20 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping
-    public ResponseEntity<List<Book>> all() {
-        List<Book> books = bookService.findAll();
+    public ResponseEntity<List<BookQuery>> all() {
+        List<BookQuery> books = bookService.findAll();
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Book> findById(@PathVariable int id)
-    {
-        Book book = bookService.findById(id);
-
-        return book != null
-                ? new ResponseEntity<>(book, HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Book> findById(@PathVariable int id)
+//    {
+//        Book book = bookService.findById(id);
+//
+//        return book != null
+//                ? new ResponseEntity<>(book, HttpStatus.OK)
+//                : new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//    }
 
     @GetMapping(value = "/category/{id}")
     public ResponseEntity<Page<Book>> searchByCategoryId(@PathVariable(value = "id") Integer id, Pageable pageable)

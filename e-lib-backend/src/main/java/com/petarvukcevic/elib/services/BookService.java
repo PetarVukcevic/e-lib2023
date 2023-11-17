@@ -1,6 +1,7 @@
 package com.petarvukcevic.elib.services;
 
 import com.petarvukcevic.elib.dto.command.BookCommand;
+import com.petarvukcevic.elib.dto.query.BookQuery;
 import com.petarvukcevic.elib.entities.Book;
 import com.petarvukcevic.elib.mappers.BookMapper;
 import com.petarvukcevic.elib.repositories.BookRepository;
@@ -35,19 +36,23 @@ public class BookService {
         bookRepository.save(bookMapper.toBook(bookCommand));
     }
 
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public List<BookQuery> findAll()
+    {
+        return bookRepository.findAll()
+                .stream()
+                .map(bookMapper::toBookQuery)
+                .toList();
     }
 
-    public Book findById(int id) {
-        List<Book> allBooks = findAll();
-        for (Book book : allBooks) {
-            if (book.getId().equals(id)) {
-                return book;
-            }
-        }
-        return null;
-    }
+//    public Book findById(int id) {
+//        List<Book> allBooks = findAll();
+//        for (Book book : allBooks) {
+//            if (book.getId().equals(id)) {
+//                return book;
+//            }
+//        }
+//        return null;
+//    }
 
     //    Cache start
     @Cacheable(value = "book", key = "#id")
