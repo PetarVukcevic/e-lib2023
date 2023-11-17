@@ -1,6 +1,7 @@
 package com.petarvukcevic.elib.controllers;
 
 import com.petarvukcevic.elib.dto.command.BookCommand;
+import com.petarvukcevic.elib.dto.command.BookUpdateCommand;
 import com.petarvukcevic.elib.dto.query.BookQuery;
 import com.petarvukcevic.elib.entities.Book;
 import com.petarvukcevic.elib.services.BookService;
@@ -59,9 +60,13 @@ public class BookController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}/edit")
-    public ResponseEntity<Void> updateBook(@PathVariable("id") Integer id, @RequestBody Book book) {
-        bookService.updateBook(book);
+    @PutMapping()
+    public ResponseEntity<Void> update(@RequestBody BookUpdateCommand bookUpdateCommand) {
+        if (bookUpdateCommand.getId() == null)
+        {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        bookService.update(bookUpdateCommand);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -53,8 +53,7 @@ public class CategoryService {
 
     public void update(CategoryUpdateCommand categoryUpdateCommand)
     {
-        Category category = categoryMapper.toCategory(categoryUpdateCommand);
-        categoryRepository.save(category);
+        categoryRepository.save(categoryMapper.toCategory(categoryUpdateCommand));
     }
 
     public void deleteById(Integer id) { categoryRepository.deleteById(id); }

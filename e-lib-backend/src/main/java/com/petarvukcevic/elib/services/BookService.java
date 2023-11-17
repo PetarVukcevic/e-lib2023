@@ -1,6 +1,7 @@
 package com.petarvukcevic.elib.services;
 
 import com.petarvukcevic.elib.dto.command.BookCommand;
+import com.petarvukcevic.elib.dto.command.BookUpdateCommand;
 import com.petarvukcevic.elib.dto.query.BookQuery;
 import com.petarvukcevic.elib.entities.Book;
 import com.petarvukcevic.elib.mappers.BookMapper;
@@ -93,8 +94,8 @@ public class BookService {
         bookRepository.save(book);
     }
 
-    public void updateBook(Book book) {
-        bookRepository.save(book);
+    public void update(BookUpdateCommand bookUpdateCommand) {
+        bookRepository.save(bookMapper.toBook(bookUpdateCommand));
     }
 
     public void deleteBook(Integer id) {
