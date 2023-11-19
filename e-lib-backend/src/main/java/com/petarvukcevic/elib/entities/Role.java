@@ -31,7 +31,7 @@ public class Role {
     @UpdateTimestamp()
     private Date updatedAt;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @ToString.Exclude
     private Set<User> users = new HashSet<>();
 }
