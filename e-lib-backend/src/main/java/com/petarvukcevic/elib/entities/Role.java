@@ -1,14 +1,13 @@
 package com.petarvukcevic.elib.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,4 +30,8 @@ public class Role {
     @Column(name = "updated_at")
     @UpdateTimestamp()
     private Date updatedAt;
+
+    @ManyToMany(mappedBy = "roles")
+    @ToString.Exclude
+    private Set<User> users = new HashSet<>();
 }

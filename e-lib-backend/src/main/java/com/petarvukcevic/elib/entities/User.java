@@ -1,14 +1,13 @@
 package com.petarvukcevic.elib.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -45,4 +44,20 @@ public class User {
 
     @Column(name = "is_active")
     private Boolean isActive;
+
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}) // user_role | exception
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    @ToString.Exclude
+    private Set<Role> roles = new HashSet<>();
+
+    public void addRole(Role role)
+    {
+        if (role != null) {
+            this.getRoles().add(role);
+        }
+    }
 }
