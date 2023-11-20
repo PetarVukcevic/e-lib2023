@@ -18,6 +18,7 @@
 		<mysql-driver.version>8.0.33</mysql-driver.version>
 		<ehcache.version>3.7.1</ehcache.version>
 		<mapstruct-core.version>1.5.5.Final</mapstruct-core.version>
+		<spring-security.version>6.1.5</spring-security.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -69,7 +70,18 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-core -->
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+			<version>${spring-security.version}</version>
+		</dependency>
 
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
 	</dependencies>
 

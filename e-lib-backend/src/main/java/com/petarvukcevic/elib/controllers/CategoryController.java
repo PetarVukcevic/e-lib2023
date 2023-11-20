@@ -9,6 +9,8 @@ import com.petarvukcevic.elib.services.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +32,7 @@ public class CategoryController {
     }
 
     @GetMapping()
+    @PreAuthorize(value = "@customAuth.hasPermission()")
     public ResponseEntity<List<CategoryQuery>> findAll()
     {
         List<CategoryQuery> categories = categoryService.findAll();
