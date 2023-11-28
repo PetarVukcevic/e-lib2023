@@ -3,14 +3,17 @@ package com.petarvukcevic.elib.controllers;
 import com.petarvukcevic.elib.dto.command.CategoryCommand;
 import com.petarvukcevic.elib.dto.command.CategoryUpdateCommand;
 import com.petarvukcevic.elib.dto.query.CategoryQuery;
-import com.petarvukcevic.elib.entities.Book;
-import com.petarvukcevic.elib.entities.Category;
+import com.petarvukcevic.elib.errors.ValidationException;
+import com.petarvukcevic.elib.errors.validators.CategoryValidator;
 import com.petarvukcevic.elib.services.CategoryService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.Errors;
+import org.springframework.validation.ValidationUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.List;
 public class CategoryController {
 
     private final CategoryService categoryService;
+    private final CategoryValidator categoryValidator;
 
     @GetMapping("{id}")
     public ResponseEntity<CategoryQuery> findOneById(@PathVariable("id") Integer id) {
@@ -40,8 +44,20 @@ public class CategoryController {
     }
 
     @PostMapping("/add-new")
-    public ResponseEntity<CategoryQuery> createCategory(@RequestBody CategoryCommand categoryCommand)
+    public ResponseEntity<CategoryQuery> createCategory(@RequestBody @Valid CategoryCommand categoryCommand)
+            throws ValidationException
     {
+        Errors potentialErrors = new BeanPropertyBindingResult(categoryCommand, "categoryCommand");
+        ValidationUtils.invokeValidator(categoryValidator, categoryCommand, potentialErrors);
+
+        if (potentialErrors.hasErrors())
+        {
+            throw new ValidationException(potentialErrors);
+        }
+
+        // supports -> CategoryValidator
+        // validate -> categoryValidator
+
         CategoryQuery categoryQuery = categoryService.create(categoryCommand);
         return new ResponseEntity<>(categoryQuery, HttpStatus.CREATED);
     }

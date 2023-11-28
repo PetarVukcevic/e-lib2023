@@ -52,4 +52,8 @@ public class CategoryService {
     }
 
     public void deleteById(Integer id) { categoryRepository.deleteById(id); }
+
+    public boolean existsByName(String name) {
+        return categoryRepository.existsByName(name);
+    }
 }
