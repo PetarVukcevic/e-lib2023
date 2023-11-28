@@ -27,4 +27,7 @@ public interface UserRepository extends JpaRepository<User,Integer> {
 //    String findEmailByUsername(@Param("username") String username);
 
     boolean existsByUsername(String username); // select count(*) > 0 from user where username = :username (true | false)
+
+    @Query(value = "select user.email from User user where user.username = :username")
+    String findEmailByUsername(@Param("username") String username);
 }

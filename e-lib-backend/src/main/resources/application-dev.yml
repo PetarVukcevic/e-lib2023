@@ -5,3 +5,11 @@ spring:
     username: root
     password: Fx8P1200
     driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+# EMail configuration
+email:
+  host: smtp.gmail.com
+    port: 578
+    username: petar.vukcevic2001@gmail.com
+    password: ""
