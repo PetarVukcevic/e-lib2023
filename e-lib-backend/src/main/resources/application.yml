@@ -9,3 +9,8 @@ spring:
     jcache:
       config: classpath:cache/ehcache.xml
 
+
+jwt:
+  secret: c3VwZXJzZWNyZXRrZXk=
+  validityInMinutes: 30 # access token
+  refreshTokenValidityInMinutes: 60 # refresh token

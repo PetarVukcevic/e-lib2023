@@ -6,7 +6,7 @@ import com.petarvukcevic.elib.dto.query.BookQuery;
 import com.petarvukcevic.elib.entities.Book;
 import com.petarvukcevic.elib.mappers.BookMapper;
 import com.petarvukcevic.elib.repositories.BookRepository;
-import jakarta.persistence.EntityNotFoundException;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

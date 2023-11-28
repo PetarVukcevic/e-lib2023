@@ -6,12 +6,11 @@ import com.petarvukcevic.elib.dto.query.CategoryQuery;
 import com.petarvukcevic.elib.entities.Category;
 import com.petarvukcevic.elib.mappers.CategoryMapper;
 import com.petarvukcevic.elib.repositories.CategoryRepository;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 

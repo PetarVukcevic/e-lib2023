@@ -15,17 +15,15 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class UnautorizedHttpEntryPoint implements AuthenticationEntryPoint {
+public class UnauthorizedHttpEntryPoint implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException, ServletException
     {
-        UnautorizedHttpResponse unautorizedHttpResponse = new UnautorizedHttpResponse(
-                authException.getMessage()
-        );
-        String rawResponse = new ObjectMapper().writeValueAsString(unautorizedHttpResponse);
+        UnauthroizedHttpResponse unauthroizedHttpResponse = new UnauthroizedHttpResponse(authException.getMessage());
+        String rawResponse = new ObjectMapper().writeValueAsString(unauthroizedHttpResponse);
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.getWriter().write(rawResponse); // JSON string
@@ -33,8 +31,7 @@ public class UnautorizedHttpEntryPoint implements AuthenticationEntryPoint {
 
     @Data
     @AllArgsConstructor
-    class UnautorizedHttpResponse {
+    class UnauthroizedHttpResponse {
         private String message;
     }
 }
-
