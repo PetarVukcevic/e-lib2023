@@ -10,6 +10,6 @@ spring:
 # EMail configuration
 email:
   host: smtp.gmail.com
-    port: 578
-    username: petar.vukcevic2001@gmail.com
-    password: ""
+  port: 587
+  username: petar.vukcevic2001@gmail.com
+  password: "swyx fhbv xvza hwdi"

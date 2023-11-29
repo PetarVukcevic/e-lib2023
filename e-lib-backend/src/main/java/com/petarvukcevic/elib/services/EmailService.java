@@ -15,7 +15,7 @@ public class EmailService {
     public void sendEmail(EmailDTO email)
     {
         SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo();
+        mailMessage.setTo(email.getRecipient());
         mailMessage.setSubject("eLib: OTP code");
         mailMessage.setText(email.getBody());
 

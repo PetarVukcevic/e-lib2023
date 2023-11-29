@@ -23,8 +23,6 @@ public interface UserRepository extends JpaRepository<User,Integer> {
             """)
     Optional<User> findByUsernameWithRoles(@Param("username") String username);
 
-//    @Query(value = "select user.email from User user where user.username = :username")
-//    String findEmailByUsername(@Param("username") String username);
 
     boolean existsByUsername(String username); // select count(*) > 0 from user where username = :username (true | false)
 

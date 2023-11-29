@@ -36,7 +36,6 @@ public class CategoryController {
     }
 
     @GetMapping()
-    @PreAuthorize(value = "@customAuth.hasPermission()")
     public ResponseEntity<List<CategoryQuery>> findAll()
     {
         List<CategoryQuery> categories = categoryService.findAll();

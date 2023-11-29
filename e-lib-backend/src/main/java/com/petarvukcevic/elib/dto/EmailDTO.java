@@ -1,5 +1,6 @@
 package com.petarvukcevic.elib.dto;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

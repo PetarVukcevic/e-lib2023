@@ -1,8 +1,10 @@
 package com.petarvukcevic.elib.security.controllers;
 
+import com.petarvukcevic.elib.security.dto.VerifyOtpDTO;
 import com.petarvukcevic.elib.security.jwt.JwtTokenProvider;
 import com.petarvukcevic.elib.security.jwt.dto.JwtTokenDTO;
 import com.petarvukcevic.elib.security.jwt.dto.LoginDTO;
+import com.petarvukcevic.elib.security.otp.OtpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -23,25 +25,44 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider tokenProvider;
+    private final OtpService otpService;
 
     @PostMapping("login")
-    public ResponseEntity<?> login(@RequestBody LoginDTO loginDTO)
+    public ResponseEntity<Void> login(@RequestBody LoginDTO login)
     {
         try {
             Authentication authentication = new UsernamePasswordAuthenticationToken(
-                    loginDTO.getUsername(),
-                    loginDTO.getPassword()
+                    login.getUsername(),
+                    login.getPassword()
             );
             Authentication auth = authenticationManager.authenticate(authentication);
             log.info("Authentication after successful login: {}", auth);
+            
+            otpService.generateOtpAndSendEmail(login.getUsername());
 
-            JwtTokenDTO token = tokenProvider.generateToken(auth, loginDTO.isRememberMe());
-            return new ResponseEntity<>(token, HttpStatus.CREATED);
+//            JwtTokenDTO token = tokenProvider.generateToken(auth, login.isRememberMe());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204
         }
         catch (Exception e) {
             log.error("Error occured on login. Message {}", e.getMessage());
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @PostMapping("verify")
+    public ResponseEntity<JwtTokenDTO> verify(@RequestBody VerifyOtpDTO verifyOtpDTO)
+    {
+        boolean isOtpValid = otpService.isOtpValid(verifyOtpDTO.getUsername(), verifyOtpDTO.getOtpCode());
+        if (!isOtpValid) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        JwtTokenDTO tokenDTO = tokenProvider.createTokenAfterVerifiedOtp(
+                verifyOtpDTO.getUsername(),
+                verifyOtpDTO.isRememberMe()
+        );
+
+        return new ResponseEntity<>(tokenDTO, HttpStatus.CREATED);
     }
 
 }
