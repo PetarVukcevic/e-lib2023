@@ -9,4 +9,6 @@ public class BookQuery {
     private String author;
     private String genre;
     private Integer pages;
+    private String imageUrl;
+    private String slug;
 }

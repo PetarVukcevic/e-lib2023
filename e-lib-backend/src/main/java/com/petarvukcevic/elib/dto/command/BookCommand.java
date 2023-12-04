@@ -11,5 +11,7 @@ public class BookCommand {
     private String author;
     private String genre;
     private Integer pages;
+    private String slug;
+    private String imageUrl;
     private CategoryQuery category;
 }

@@ -52,6 +52,13 @@ public class BookService {
         return optionalBook.map(bookMapper::toBookQuery).orElse(null);
     }
 
+    public BookQuery findBySlug(String slug) {
+        Optional<Book> optionalBook = bookRepository.findBySlug(slug);
+
+        return optionalBook.map(bookMapper::toBookQuery).orElse(null);
+
+    }
+
     public void update(BookUpdateCommand bookUpdateCommand) {
         bookRepository.save(bookMapper.toBook(bookUpdateCommand));
     }

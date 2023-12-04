@@ -28,24 +28,26 @@ public class AuthController {
     private final OtpService otpService;
 
     @PostMapping("login")
-    public ResponseEntity<Void> login(@RequestBody LoginDTO login)
+    public ResponseEntity<JwtTokenDTO> login(@RequestBody LoginDTO login)
     {
-        try {
+        try
+        {
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     login.getUsername(),
                     login.getPassword()
             );
-            Authentication auth = authenticationManager.authenticate(authentication);
+            Authentication auth = authenticationManager.authenticate(authentication); // magic!!!
             log.info("Authentication after successful login: {}", auth);
-            
-            otpService.generateOtpAndSendEmail(login.getUsername());
 
-//            JwtTokenDTO token = tokenProvider.generateToken(auth, login.isRememberMe());
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // 204
+            JwtTokenDTO token = tokenProvider.createTokenAfterVerifiedOtp(login.getUsername(), false);
+            // otpService.generateOtpAndSendEmail(login.getUsername());
+//            return new ResponseEntity<>(HttpStatus.NO_CONTENT); // OK (200 | 201 | 204)
+            return new ResponseEntity<>(token, HttpStatus.OK); // OK (200 | 201 | 204)
         }
-        catch (Exception e) {
-            log.error("Error occured on login. Message {}", e.getMessage());
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        catch (Exception e)
+        {
+            log.error("Error occurred on login. Message: {}", e.getMessage());
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // 401
         }
     }
 

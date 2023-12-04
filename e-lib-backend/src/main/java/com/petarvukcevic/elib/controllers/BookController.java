@@ -6,14 +6,17 @@ import com.petarvukcevic.elib.dto.query.BookQuery;
 import com.petarvukcevic.elib.entities.Book;
 import com.petarvukcevic.elib.services.BookService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriUtils;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/books")
@@ -27,9 +30,9 @@ public class BookController {
         return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<BookQuery> findById(@PathVariable("id") Integer id) {
-        BookQuery bookQuery = bookService.findById(id);
+    @GetMapping("/{slug}")
+    public ResponseEntity<BookQuery> findBySlug(@PathVariable("slug") String slug) {
+        BookQuery bookQuery = bookService.findBySlug(slug);
 
         return bookQuery != null
                 ? new ResponseEntity<>(bookQuery, HttpStatus.OK)
@@ -52,11 +55,24 @@ public class BookController {
     }
 
     @PostMapping("/add-new")
-    public ResponseEntity<Void> create(@RequestBody BookCommand bookCommand)
-    {
+    public ResponseEntity<Void> create(@RequestBody BookCommand bookCommand) {
+        String slug = makeSlug(bookCommand.getTitle());
+        log.info("Slug: " + slug);
+        bookCommand.setSlug(slug);  // Assuming you have a setSlug method in your BookCommand class
         bookService.create(bookCommand);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    private String makeSlug(String title) {
+        // Convert to lowercase and replace spaces with underscores
+        String slug = title.toLowerCase().replaceAll("\\s", "_");
+
+        // You can further sanitize the slug if needed, for example, removing special characters
+
+        // URL encode the slug to handle special characters properly
+        return UriUtils.encodePath(slug, "UTF-8");
+    }
+
 
     @PutMapping()
     public ResponseEntity<Void> update(@RequestBody BookUpdateCommand bookUpdateCommand) {

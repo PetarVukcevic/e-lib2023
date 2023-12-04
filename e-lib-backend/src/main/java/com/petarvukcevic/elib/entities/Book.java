@@ -29,6 +29,11 @@ public class Book implements Serializable {
 
     private Integer pages;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    private String slug;
+
     @Column(name = "created_at")
     @CreationTimestamp()
     private Date createdAt;

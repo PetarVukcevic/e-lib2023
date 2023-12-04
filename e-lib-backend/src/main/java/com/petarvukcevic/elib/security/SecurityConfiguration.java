@@ -39,6 +39,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
 //                .requestMatchers(HttpMethod.GET, "/categories/**").permitAll()
 //                .requestMatchers( "/categories/**").authenticated()
+                .requestMatchers(HttpMethod.OPTIONS,"/authenticate/**").permitAll() // login, register
                 .requestMatchers(HttpMethod.POST,"/authenticate/**").permitAll() // login, register
                 .anyRequest().permitAll();
 
